@@ -1,7 +1,3 @@
-"""
-script_generator.py — Generate a short video narration script using Google Gemini.
-"""
-
 import os
 from google import genai
 from google.genai import types
@@ -17,16 +13,6 @@ Keep the total word count between 80–120 words."""
 
 
 def generate_script(title: str, summary: str) -> str:
-    """
-    Generate a 30-60 second video script based on the article title and summary.
-
-    Args:
-        title: Article headline / topic.
-        summary: Brief description or body text of the article.
-
-    Returns:
-        A narration script as a plain string.
-    """
     if not _client:
         print("  [Warning] GOOGLE_API_KEY not set. Using fallback script.")
         return _fallback_script(title)
@@ -55,7 +41,6 @@ def generate_script(title: str, summary: str) -> str:
 
 
 def _fallback_script(title: str) -> str:
-    """Return a generic script when the API is unavailable."""
     return (
         f"Did you know? {title}. "
         "This is one of the most talked-about stories right now. "

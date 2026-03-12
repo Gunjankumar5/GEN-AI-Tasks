@@ -1,9 +1,3 @@
-"""
-module_generator.py — Convert analysis results into a structured list of system modules.
-
-Each module represents an independently deployable service or component.
-"""
-
 import os
 import json
 from google import genai
@@ -26,15 +20,6 @@ Generate 4-6 modules. Keep descriptions concise and practical."""
 
 
 def generate_modules(analysis: dict) -> list[dict]:
-    """
-    Generate system modules from requirement analysis.
-
-    Args:
-        analysis: Dict with entities, features, non_functional keys.
-
-    Returns:
-        List of module dicts.
-    """
     if _client:
         modules = _generate_with_ai(analysis)
         if modules:
@@ -44,7 +29,6 @@ def generate_modules(analysis: dict) -> list[dict]:
 
 
 def _generate_with_ai(analysis: dict) -> list[dict]:
-    """Use Gemini to generate modules."""
     user_prompt = (
         f"Based on this requirement analysis, design the system modules:\n"
         f"Entities: {', '.join(analysis.get('entities', []))}\n"
@@ -68,7 +52,6 @@ def _generate_with_ai(analysis: dict) -> list[dict]:
 
 
 def _fallback_modules(analysis: dict) -> list[dict]:
-    """Generate sensible default modules based on common entities."""
     entities = [e.lower() for e in analysis.get("entities", [])]
 
     base_modules = [
@@ -129,7 +112,6 @@ def _fallback_modules(analysis: dict) -> list[dict]:
         },
     ]
 
-    # Filter/add based on detected entities
     if "delivery" in entities or "agent" in entities:
         base_modules.append(
             {

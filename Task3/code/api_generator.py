@@ -1,9 +1,3 @@
-"""
-api_generator.py — Generate a REST API specification based on system modules.
-
-Output: dict with base_url and list of endpoint definitions.
-"""
-
 import os
 import json
 from google import genai
@@ -32,15 +26,6 @@ Generate 2-3 endpoints per module. Cover the most important CRUD operations."""
 
 
 def generate_api_spec(modules: list[dict]) -> dict:
-    """
-    Generate REST API endpoints for all modules.
-
-    Args:
-        modules: List of module dicts.
-
-    Returns:
-        Dict with base_url and endpoints list.
-    """
     if _client:
         spec = _generate_with_ai(modules)
         if spec:
@@ -50,7 +35,6 @@ def generate_api_spec(modules: list[dict]) -> dict:
 
 
 def _generate_with_ai(modules: list[dict]) -> dict:
-    """Use Gemini to design the API."""
     module_summary = "\n".join([f"- {m['name']}: {m['description']}" for m in modules])
     user_prompt = f"Design REST API endpoints for these modules:\n{module_summary}"
 
@@ -70,9 +54,7 @@ def _generate_with_ai(modules: list[dict]) -> dict:
 
 
 def _fallback_api_spec(modules: list[dict]) -> dict:
-    """Return hardcoded REST API endpoints for common modules."""
     endpoints = [
-        # Auth
         {
             "method": "POST",
             "path": "/auth/register",

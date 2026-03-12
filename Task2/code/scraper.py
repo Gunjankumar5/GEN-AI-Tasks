@@ -1,14 +1,3 @@
-"""
-scraper.py — Scrape trending / best-selling products from Amazon using BeautifulSoup.
-
-Note: Amazon aggressively blocks scrapers. This module uses:
-  1. Realistic headers + randomised delays
-  2. A fallback mock dataset if scraping fails (for demo purposes)
-
-For production use, consider the Amazon Product Advertising API or
-a paid scraping service (Oxylabs, ScraperAPI, etc.).
-"""
-
 import time
 import random
 import requests
@@ -35,19 +24,8 @@ def scrape_trending_products(
     url: str = AMAZON_BESTSELLERS_URL,
     category: str = "Electronics",
 ) -> List[Dict]:
-    """
-    Scrape best-selling products.
-
-    Args:
-        limit: Max number of products to return.
-        url: Amazon best-sellers page URL.
-        category: Product category label to attach to each product.
-
-    Returns:
-        List of product dicts: {name, price, rating, reviews, url, category}
-    """
     try:
-        time.sleep(random.uniform(1.5, 3.0))  # polite delay
+        time.sleep(random.uniform(1.5, 3.0))
         response = requests.get(url, headers=HEADERS, timeout=12)
         response.raise_for_status()
         return _parse_products(response.text, limit, category)
@@ -57,7 +35,6 @@ def scrape_trending_products(
 
 
 def _parse_products(html: str, limit: int, category: str) -> List[Dict]:
-    """Parse Amazon bestsellers HTML."""
     soup = BeautifulSoup(html, "html.parser")
     products = []
 
@@ -86,7 +63,6 @@ def _parse_products(html: str, limit: int, category: str) -> List[Dict]:
 
 
 def _mock_products() -> List[Dict]:
-    """Fallback mock products for offline demo."""
     return [
         {
             "name": "Apple AirPods Pro (2nd Generation)",

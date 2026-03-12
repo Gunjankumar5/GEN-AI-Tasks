@@ -1,7 +1,3 @@
-"""
-blog_generator.py — Generate a 150-200 word SEO-optimised blog post using Google Gemini.
-"""
-
 import os
 from google import genai
 from google.genai import types
@@ -21,16 +17,6 @@ Write engaging, informative blog posts that:
 
 
 def generate_blog_post(product: Dict, keywords: List[str]) -> str:
-    """
-    Generate a 150-200 word SEO blog post for the product.
-
-    Args:
-        product: Dict with keys: name, price, rating, url, category.
-        keywords: List of 3-4 SEO keywords to incorporate.
-
-    Returns:
-        Blog post as a Markdown-formatted string.
-    """
     if _client:
         blog = _generate_with_ai(product, keywords)
         if blog:
@@ -41,7 +27,6 @@ def generate_blog_post(product: Dict, keywords: List[str]) -> str:
 
 
 def _generate_with_ai(product: Dict, keywords: List[str]) -> str:
-    """Call Gemini to write the blog post."""
     kw_list = ", ".join(keywords)
     prompt = (
         f"{SYSTEM_PROMPT}\n\n"
@@ -71,7 +56,6 @@ def _generate_with_ai(product: Dict, keywords: List[str]) -> str:
 
 
 def _template_blog(product: Dict, keywords: List[str]) -> str:
-    """Fallback template-based blog post."""
     name = product["name"]
     price = product["price"]
     rating = product["rating"]

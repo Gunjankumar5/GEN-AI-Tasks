@@ -1,9 +1,3 @@
-"""
-schema_generator.py — Generate relational database schemas for each identified entity.
-
-Output format: list of table dicts, each with columns (name, type, constraints).
-"""
-
 import os
 import json
 from google import genai
@@ -27,16 +21,6 @@ Keep schemas practical and normalised (3NF)."""
 
 
 def generate_schemas(modules: list[dict], entities: list[str]) -> list[dict]:
-    """
-    Generate DB schemas for the given entities.
-
-    Args:
-        modules: List of module dicts.
-        entities: List of entity names from requirement analysis.
-
-    Returns:
-        List of table schema dicts.
-    """
     if _client:
         schemas = _generate_with_ai(entities, modules)
         if schemas:
@@ -46,7 +30,6 @@ def generate_schemas(modules: list[dict], entities: list[str]) -> list[dict]:
 
 
 def _generate_with_ai(entities: list[str], modules: list[dict]) -> list[dict]:
-    """Use Gemini to design schemas."""
     module_names = [m["name"] for m in modules]
     user_prompt = (
         f"Design database schemas for these entities: {', '.join(entities)}\n"

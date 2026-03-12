@@ -1,7 +1,3 @@
-"""
-scraper.py — Fetch trending news articles using NewsAPI or RSS fallback.
-"""
-
 import os
 import requests
 from typing import List, Dict
@@ -12,17 +8,6 @@ NEWSAPI_URL = "https://newsapi.org/v2/top-headlines"
 
 
 def fetch_trending_news(limit: int = 5, category: str = "technology") -> List[Dict]:
-    """
-    Fetch trending news articles from NewsAPI.
-    Falls back to a mock dataset if the API key is missing.
-
-    Args:
-        limit: Number of articles to return.
-        category: News category (technology, health, sports, etc.)
-
-    Returns:
-        List of dicts with keys: title, summary, url, source
-    """
     if NEWSAPI_KEY:
         return _fetch_from_newsapi(limit, category)
     else:
@@ -31,7 +16,6 @@ def fetch_trending_news(limit: int = 5, category: str = "technology") -> List[Di
 
 
 def _fetch_from_newsapi(limit: int, category: str) -> List[Dict]:
-    """Call NewsAPI top-headlines endpoint."""
     params = {
         "apiKey": NEWSAPI_KEY,
         "category": category,
@@ -61,7 +45,6 @@ def _fetch_from_newsapi(limit: int, category: str) -> List[Dict]:
 
 
 def _mock_articles() -> List[Dict]:
-    """Return mock trending articles for demo / offline use."""
     return [
         {
             "title": "AI Breakthroughs Transforming Healthcare in 2025",

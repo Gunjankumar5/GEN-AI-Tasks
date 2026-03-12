@@ -1,12 +1,3 @@
-"""
-analyzer.py — Analyze a high-level business requirement using OpenAI GPT.
-
-Extracts:
-  - Core entities (nouns / data models)
-  - Key features (functional requirements)
-  - Non-functional requirements (performance, security, scalability)
-"""
-
 import os
 import json
 from google import genai
@@ -27,15 +18,6 @@ Be concise — 4-6 items per list maximum."""
 
 
 def analyze_requirements(requirement: str) -> dict:
-    """
-    Parse a business requirement into entities, features, and NFRs.
-
-    Args:
-        requirement: Raw business requirement text.
-
-    Returns:
-        Dict with keys: entities, features, non_functional
-    """
     if _client:
         result = _analyze_with_ai(requirement)
         if result:
@@ -46,7 +28,6 @@ def analyze_requirements(requirement: str) -> dict:
 
 
 def _analyze_with_ai(requirement: str) -> dict | None:
-    """Use Gemini to extract structured analysis."""
     try:
         response = _client.models.generate_content(
             model="gemini-2.5-flash",
@@ -64,13 +45,8 @@ def _analyze_with_ai(requirement: str) -> dict | None:
 
 
 def _rule_based_analysis(requirement: str) -> dict:
-    """
-    Basic NLP-free extraction using keyword matching.
-    Works offline without any API key.
-    """
     text_lower = requirement.lower()
 
-    # Common entity keywords
     entity_map = {
         "user": "User",
         "customer": "Customer",
@@ -87,7 +63,6 @@ def _rule_based_analysis(requirement: str) -> dict:
     }
     entities = list({v for k, v in entity_map.items() if k in text_lower})[:6]
 
-    # Feature keywords
     feature_map = {
         "browse": "Browse and search listings",
         "order": "Place and manage orders",

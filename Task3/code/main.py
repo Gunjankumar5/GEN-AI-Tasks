@@ -1,18 +1,7 @@
-"""
-Task 3: High-Level to Low-Level Architecture Pipeline
-Main entry point — orchestrates the full pipeline:
-1. Accept a high-level business requirement (text input)
-2. Analyze and break it into modules
-3. Generate database schemas for each module
-4. Generate pseudocode for core logic
-5. Generate a REST API spec
-6. Output a complete technical_spec.md
-"""
-
 import os
 import sys
 from dotenv import load_dotenv
-load_dotenv()  # Must be called before importing modules that read env vars at module level
+load_dotenv()
 from analyzer import analyze_requirements
 from module_generator import generate_modules
 from schema_generator import generate_schemas
@@ -30,12 +19,6 @@ Delivery agents should receive order assignments and update delivery status.
 
 
 def run_pipeline(requirement: str = None) -> None:
-    """
-    Run the full high-level to low-level architecture pipeline.
-
-    Args:
-        requirement: Business requirement string. Defaults to SAMPLE_REQUIREMENT.
-    """
     print("=" * 65)
     print("   High-Level → Low-Level Architecture Pipeline")
     print("=" * 65)
@@ -47,37 +30,31 @@ def run_pipeline(requirement: str = None) -> None:
     print(f"\n[Input Requirement]\n{requirement.strip()}\n")
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-    # Step 1: Analyze the requirement
-    print("─" * 65)
+    print("\u2500" * 65)
     print("[Step 1] Analyzing business requirements...")
     analysis = analyze_requirements(requirement)
     print(f"  Entities identified  : {', '.join(analysis['entities'])}")
     print(f"  Core features        : {', '.join(analysis['features'])}")
     print(f"  Non-functional needs : {', '.join(analysis['non_functional'])}")
 
-    # Step 2: Generate modules
     print("\n[Step 2] Generating system modules...")
     modules = generate_modules(analysis)
     print(f"  Modules created      : {len(modules)}")
     for m in modules:
         print(f"    • {m['name']}: {m['description']}")
 
-    # Step 3: Generate schemas
     print("\n[Step 3] Generating database schemas...")
     schemas = generate_schemas(modules, analysis["entities"])
     print(f"  Schemas generated    : {len(schemas)} table(s)")
 
-    # Step 4: Generate pseudocode
     print("\n[Step 4] Generating pseudocode for core logic...")
     pseudocode = generate_pseudocode(modules)
     print(f"  Pseudocode blocks    : {len(pseudocode)}")
 
-    # Step 5: Generate API spec
     print("\n[Step 5] Generating REST API specification...")
     api_spec = generate_api_spec(modules)
     print(f"  API endpoints        : {len(api_spec['endpoints'])}")
 
-    # Step 6: Write technical_spec.md
     print("\n[Step 6] Writing technical specification document...")
     spec_path = os.path.join(OUTPUT_DIR, "technical_spec.md")
     _write_spec(spec_path, requirement, analysis, modules, schemas, pseudocode, api_spec)
@@ -97,7 +74,6 @@ def _write_spec(
     pseudocode: list,
     api_spec: dict,
 ) -> None:
-    """Combine all pipeline outputs into a single Markdown spec document."""
     lines = []
 
     lines.append("# Technical Specification Document\n")

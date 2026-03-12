@@ -1,9 +1,3 @@
-"""
-pseudocode_gen.py — Generate pseudocode for the core function of each module.
-
-Output: list of dicts with module name, function name, and pseudocode string.
-"""
-
 import os
 import json
 from google import genai
@@ -26,15 +20,6 @@ Keep pseudocode readable, with 5-12 lines per function. Use indentation for clar
 
 
 def generate_pseudocode(modules: list[dict]) -> list[dict]:
-    """
-    Generate pseudocode for each module.
-
-    Args:
-        modules: List of module dicts from module_generator.
-
-    Returns:
-        List of pseudocode blocks.
-    """
     if _client:
         result = _generate_with_ai(modules)
         if result:
@@ -44,7 +29,6 @@ def generate_pseudocode(modules: list[dict]) -> list[dict]:
 
 
 def _generate_with_ai(modules: list[dict]) -> list[dict]:
-    """Use Gemini to write pseudocode."""
     module_summary = "\n".join(
         [f"- {m['name']}: {m['description']}" for m in modules]
     )
@@ -140,7 +124,6 @@ def _fallback_pseudocode(modules: list[dict]) -> list[dict]:
                 "code": t["code"],
             })
         else:
-            # Generic CRUD pseudocode
             result.append({
                 "module": module["name"],
                 "function": f"handleRequest(requestData)",
